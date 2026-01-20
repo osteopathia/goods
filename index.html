@@ -75,15 +75,16 @@
       background: #0f141b;
     }
 
-    .slide img {
-  width: 100%;
-  max-width: 820px;   /* ← ВОТ ГЛАВНОЕ */
+   .slide img{
+  max-width: 100%;
+  width: auto;
   height: auto;
+  max-height: 78vh;     /* ключ: картинка не выше экрана */
   display: block;
+  margin: 0 auto;
   object-fit: contain;
-  margin: 0 auto;     /* центрируем */
   background: #0f141b;
-    }
+}
 
     /* Dots */
     .dots {
@@ -125,9 +126,8 @@
   </style>
 
 <style>
-.slide {
-  padding: 40px 0;
-}
+.slide { padding: 0; }
+
 </style>
 
 </head>
