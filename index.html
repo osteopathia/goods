@@ -3,652 +3,232 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Recommended Products for Sleep, Recovery & Movement</title>
-  <meta name="description" content="A practical list of products I personally use and recommend for comfort, recovery and everyday wellbeing." />
+  <title>Osteopathia — Book I</title>
+  <meta name="description" content="Book I — visual fragments." />
 
   <style>
+    :root {
+      --maxw: 980px;
+      --bg: #0b0d10;
+      --card: #11151b;
+      --text: #e8eef6;
+      --muted: #a8b3c2;
+      --dot: rgba(255,255,255,0.35);
+      --dotActive: rgba(255,255,255,0.9);
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --radius: 14px;
+    }
+
     body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      line-height: 1.55;
       margin: 0;
-      background: #ffffff;
-      color: #111;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
+
     main {
-      max-width: 920px;
+      max-width: var(--maxw);
       margin: 0 auto;
-      padding: 28px 18px 60px;
+      padding: 28px 16px 40px;
     }
+
+    header {
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
     h1 {
-      font-size: 28px;
-      margin: 0 0 10px;
-    }
-    .sub {
-      color: #444;
-      margin: 0 0 20px;
-    }
-    .box {
-      background: #f6f7f9;
-      border: 1px solid #e6e8ee;
-      padding: 14px 16px;
-      border-radius: 10px;
-      margin: 16px 0 26px;
-    }
-    h2 {
-      margin-top: 32px;
       font-size: 20px;
-    }
-    ul {
-      padding-left: 18px;
-    }
-    li {
-      margin: 14px 0;
-    }
-    .item-title {
+      margin: 0 0 6px;
       font-weight: 700;
+      letter-spacing: 0.2px;
     }
-    .note {
-      color: #333;
-      margin: 4px 0 6px;
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
     }
-    a {
-      color: #0645ad;
-      text-decoration: none;
+
+    /* Slider */
+    .slider {
+      margin-top: 18px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .track {
+      display: flex;
+      width: 100%;
+      transition: transform 450ms ease;
+      will-change: transform;
     }
+
+    .slide {
+      flex: 0 0 100%;
+      display: grid;
+      place-items: center;
+      background: #0f141b;
+    }
+
+    .slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+      /* Important: keep page-like look */
+      object-fit: contain;
+      background: #0f141b;
+    }
+
+    /* Dots */
+    .dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      padding: 12px 10px 14px;
+      background: rgba(0,0,0,0.15);
+      backdrop-filter: blur(6px);
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--dot);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .dot[aria-current="true"] {
+      background: var(--dotActive);
+    }
+
     footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #333;
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
     }
-    .small {
-      font-size: 13px;
-      color: #444;
-    }
-    .links {
-      font-size: 14px;
-    }
-    .sep {
-      color: #777;
-      margin: 0 8px;
+
+    /* Mobile polish */
+    @media (max-width: 480px) {
+      main { padding-top: 18px; }
+      h1 { font-size: 18px; }
+      .sub { font-size: 13px; }
     }
   </style>
-
-  <script>
-    function copyTextToClipboard(text) {
-      // Modern clipboard API (works on most modern browsers / phones)
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        return navigator.clipboard.writeText(text);
-      }
-
-      // Fallback for older browsers
-      return new Promise(function(resolve, reject) {
-        try {
-          var ta = document.createElement("textarea");
-          ta.value = text;
-          ta.setAttribute("readonly", "");
-          ta.style.position = "fixed";
-          ta.style.left = "-9999px";
-          document.body.appendChild(ta);
-          ta.select();
-          var ok = document.execCommand("copy");
-          document.body.removeChild(ta);
-          ok ? resolve() : reject();
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }
-
-    function copyProduct(title, url) {
-      var text = title + "\n" + url;
-      copyTextToClipboard(text).then(function() {
-        alert("Copied for SMS");
-      }).catch(function() {
-        alert("Copy failed. Please copy manually.");
-      });
-    }
-
-    // Build an SMS deep-link that opens the user's SMS app with prefilled body:
-    // Title + newline + URL (the URL becomes clickable in most SMS apps)
-    function makeSmsHref(title, url) {
-      var body = encodeURIComponent((title || "") + "\n" + (url || ""));
-      return "sms:&body=" + body;
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-      // Activate SMS links automatically for all anchors with class "sms-link"
-      var smsLinks = document.querySelectorAll("a.sms-link");
-      smsLinks.forEach(function(a) {
-        var title = a.getAttribute("data-title") || "";
-        var url = a.getAttribute("data-url") || "";
-        a.setAttribute("href", makeSmsHref(title, url));
-      });
-    });
-
-    document.addEventListener("click", function(e) {
-      var el = e.target;
-
-      // Copy for SMS handler
-      if (el && el.classList && el.classList.contains("copy-sms")) {
-        e.preventDefault();
-        var title = el.getAttribute("data-title") || "";
-        var url = el.getAttribute("data-url") || "";
-        copyProduct(title, url);
-      }
-    });
-  </script>
 </head>
 
 <body>
-<main>
+  <main>
+    <header>
+      <h1>Book I — Visual Fragments</h1>
+      <p class="sub">A small rotating gallery. More will be added over time.</p>
+    </header>
 
-  <h1>Recommended Products for Sleep, Recovery & Movement</h1>
-  <p class="sub">
-    A practical list of products I personally use and recommend to patients
-    for comfort, sleep support, recovery and everyday movement.
-  </p>
-
-  <div class="box">
-    <p class="small">
-      <strong>Important:</strong> This page is for general information only and is not medical advice.
-      Always follow product directions and consult a qualified healthcare professional if you have
-      medical conditions, allergies, or take medications.
-    </p>
-    <p class="small">
-      <strong>Disclosure:</strong> This page may contain affiliate links. This does not affect the price you pay.
-    </p>
-  </div>
-
-  <h2>At-Home Bodywork Tools & Good SLEEP</h2>
-  <ul>
-
-    <li>
-      <div class="item-title">Foam YOGA ROLLER</div>
-     
-      <div class="links">
-        <a href="https://amzn.to/4p59WH4" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Foam YOGA ROLLER" data-url="https://amzn.to/4p59WH4">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Foam YOGA ROLLER" data-url="https://amzn.to/4p59WH4">SMS link</a>
+    <section class="slider" aria-label="Book I image slider">
+      <div class="track" id="track">
+        <!-- Put images in /book1/ with names b1-01.jpg ... b1-06.jpg -->
+        <div class="slide"><img src="book1/b1-01.jpg" alt="Book I image 01"></div>
+        <div class="slide"><img src="book1/b1-02.jpg" alt="Book I image 02"></div>
+        <div class="slide"><img src="book1/b1-03.jpg" alt="Book I image 03"></div>
+        <div class="slide"><img src="book1/b1-04.jpg" alt="Book I image 04"></div>
+        <div class="slide"><img src="book1/b1-05.jpg" alt="Book I image 05"></div>
+        <div class="slide"><img src="book1/b1-06.jpg" alt="Book I image 06"></div>
       </div>
-    </li>
 
-    <li>
-      <div class="item-title">Massage Roller Stick</div>
-      
-      <div class="links">
-        <a href="https://amzn.to/3Lb9nxq" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Massage Roller Stick" data-url="https://amzn.to/3Lb9nxq">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Massage Roller Stick" data-url="https://amzn.to/3Lb9nxq">SMS link</a>
+      <div class="dots" id="dots" aria-label="Slide navigation dots">
+        <button class="dot" data-i="0" aria-label="Go to slide 1" aria-current="true"></button>
+        <button class="dot" data-i="1" aria-label="Go to slide 2"></button>
+        <button class="dot" data-i="2" aria-label="Go to slide 3"></button>
+        <button class="dot" data-i="3" aria-label="Go to slide 4"></button>
+        <button class="dot" data-i="4" aria-label="Go to slide 5"></button>
+        <button class="dot" data-i="5" aria-label="Go to slide 6"></button>
       </div>
-    </li>
+    </section>
 
-    <li>
-      <div class="item-title">Resistance Exercise Bands (Set)</div>
-     
-        <a href="https://amzn.to/4bsZ4zv" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Resistance Exercise Bands (Set)" data-url="https://amzn.to/4bsZ4zv">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Resistance Exercise Bands (Set)" data-url="https://amzn.to/4bsZ4zv">SMS link</a>
-      </div>
-    </li>
+    <footer>
+      © <span id="y"></span> Osteopathia.ca
+    </footer>
+  </main>
 
-  <li>
-      <div class="item-title">Yoga Blocks and Strap Set</div>
-     
-        <a href="https://amzn.to/3LASYCJ" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Yoga Blocks and Strap Set" data-url="https://amzn.to/3LASYCJ">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Yoga Blocks and Strap Set" data-url="https://amzn.to/3LASYCJ">SMS link</a>
-      </div>
-    </li>
+  <script>
+    (function () {
+      const INTERVAL_MS = 6000; // 6 seconds
+      const track = document.getElementById("track");
+      const dotsWrap = document.getElementById("dots");
+      const dots = Array.from(dotsWrap.querySelectorAll(".dot"));
+      const total = dots.length;
 
-<li>
-      <div class="item-title">Recovery Rounds Myofascial Release Balls (Set of 2)</div>
-     
-        <a href="https://amzn.to/4pYCeEr" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Recovery Rounds Myofascial Release Balls (Set of 2)" data-url="https://amzn.to/4pYCeEr">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Recovery Rounds Myofascial Release Balls (Set of 2)" data-url="https://amzn.to/4pYCeEr">SMS link</a>
-      </div>
-    </li>
+      let index = 0;
+      let timer = null;
 
-    <li>
-      <div class="item-title">Trigger Point Massage Hook (Therapy Cane)</div>
-   
-        <a href="https://amzn.to/48PS51W" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Trigger Point Massage Hook (Therapy Cane)" data-url="https://amzn.to/48PS51W">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Trigger Point Massage Hook (Therapy Cane)" data-url="https://amzn.to/48PS51W">SMS link</a>
-      </div>
-    </li>
+      function setIndex(i) {
+        index = (i + total) % total;
+        track.style.transform = "translateX(" + (-index * 100) + "%)";
+        dots.forEach((d, n) => d.setAttribute("aria-current", n === index ? "true" : "false"));
+      }
 
-  <li>
-      <div class="item-title">Balance Board - Round Stability Trainer</div>
-      
-      <div class="links">
-        <a href="https://amzn.to/49dGfO9" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Balance Board - Round Stability Trainer" data-url="https://amzn.to/49dGfO9">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Balance Board - Round Stability Trainer" data-url="https://amzn.to/49dGfO9">SMS link</a>
-      </div>
-    </li>
+      function next() {
+        setIndex(index + 1);
+      }
 
+      function start() {
+        stop();
+        timer = setInterval(next, INTERVAL_MS);
+      }
 
+      function stop() {
+        if (timer) clearInterval(timer);
+        timer = null;
+      }
 
-    <li>
-      <div class="item-title">Foot Massager Roller & Spiky Ball Set</div>
-     
-        <a href="https://amzn.to/3Y9c3yz" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Foot Massager Roller & Spiky Ball Set" data-url="https://amzn.to/3Y9c3yz">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Foot Massager Roller & Spiky Ball Set" data-url="https://amzn.to/3Y9c3yz">SMS link</a>
-      </div>
-    </li>
+      // Click dots
+      dotsWrap.addEventListener("click", (e) => {
+        const btn = e.target.closest(".dot");
+        if (!btn) return;
+        const i = parseInt(btn.getAttribute("data-i"), 10);
+        setIndex(i);
+        start(); // reset timer after manual action
+      });
 
-    <li>
-      <div class="item-title">Handheld Portable Neck Massager</div>
-    
-      <div class="links">
-        <a href="https://amzn.to/4jg5i7W" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Handheld Portable Neck Massager" data-url="https://amzn.to/4jg5i7W">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Handheld Portable Neck Massager" data-url="https://amzn.to/4jg5i7W">SMS link</a>
-      </div>
-    </li>
+      // Pause on hover (desktop)
+      const slider = document.querySelector(".slider");
+      slider.addEventListener("mouseenter", stop);
+      slider.addEventListener("mouseleave", start);
 
- <li>
-      <div class="item-title">Cupping Therapy Sets Portable</div>
-    
-      <div class="links">
-        <a href="https://amzn.to/4jKox9N" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Cupping Therapy Sets Portable" data-url="https://amzn.to/4jKox9N">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Cupping Therapy Sets Portable" data-url="https://amzn.to/4jKox9N">SMS link</a>
-      </div>
-    </li>
+      // Basic swipe for mobile (optional but nice)
+      let startX = 0;
+      let dx = 0;
+      slider.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+        dx = 0;
+        stop();
+      }, { passive: true });
 
-<li>
-      <div class="item-title">Support Insoles Inserts Men Women - Orthotic</div>
-     
-      <div class="links">
-        <a href="https://amzn.to/45GVEW4" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Support Insoles Inserts Men Women - Orthotic" data-url="https://amzn.to/45GVEW4">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Support Insoles Inserts Men Women - Orthotic" data-url="https://amzn.to/45GVEW4">SMS link</a>
-      </div>
-    </li>
+      slider.addEventListener("touchmove", (e) => {
+        dx = e.touches[0].clientX - startX;
+      }, { passive: true });
 
-    <li>
-      <div class="item-title">Brooks Men’s Supportive Running Shoe</div>
-      
-      <div class="links">
-        <a href="https://amzn.to/4aXfpfw" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Brooks Men’s Supportive Running Shoe" data-url="https://amzn.to/4aXfpfw">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Brooks Men’s Supportive Running Shoe" data-url="https://amzn.to/4aXfpfw">SMS link</a>
-      </div>
-    </li>
+      slider.addEventListener("touchend", () => {
+        if (Math.abs(dx) > 45) {
+          setIndex(index + (dx < 0 ? 1 : -1));
+        }
+        start();
+      });
 
-    <li>
-      <div class="item-title">100% Natural Premium Adjustable Latex Pillow</div>
-     
-      <div class="links">
-        <a href="https://amzn.to/3L2o1as" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="100% Natural Premium Adjustable Latex Pillow" data-url="https://amzn.to/3L2o1as">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="100% Natural Premium Adjustable Latex Pillow" data-url="https://amzn.to/3L2o1as">SMS link</a>
-      </div>
-    </li>
+      // Footer year
+      document.getElementById("y").textContent = new Date().getFullYear();
 
-    <li>
-      <div class="item-title">Memorys Foams Mattress Topper</div>
-     
-      <div class="links">
-        <a href="https://amzn.to/3Yp6fkN" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Memorys Foams Mattress Topper" data-url="https://amzn.to/3Yp6fkN">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Memorys Foams Mattress Topper" data-url="https://amzn.to/3Yp6fkN">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Waterproof Mattress Protector</div>
-     
-      <div class="links">
-        <a href="https://amzn.to/44B2yfb" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Waterproof Mattress Protector" data-url="https://amzn.to/44B2yfb">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Waterproof Mattress Protector" data-url="https://amzn.to/44B2yfb">SMS link</a>
-      </div>
-    </li>
-
-<li>
-      <div class="item-title">Natural Latex Mattress Topper w/Luxury Cover - Medium</div>
-   
-      <div class="links">
-        <a href="https://amzn.to/4pwLFKh" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Natural Latex Mattress Topper w/Luxury Cover - Medium" data-url="https://amzn.to/4pwLFKh">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Natural Latex Mattress Topper w/Luxury Cover - Medium" data-url="https://amzn.to/4pwLFKh">SMS link</a>
-      </div>
-    </li>
-
-  </ul>
-
-  <h2>Supplements & Vitamins (When Appropriate)</h2>
-  <ul>
-
-    <li>
-      <div class="item-title">Traumacare Pain Relief Cream 100g</div>
-     
-        <a href="https://amzn.to/4p8m4H7" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Traumacare Pain Relief Cream 100g" data-url="https://amzn.to/4p8m4H7">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Traumacare Pain Relief Cream 100g" data-url="https://amzn.to/4p8m4H7">SMS link</a>
-      </div>
-    </li>
-
-<li>
-      <div class="item-title">Nature’s Way MCT Oil (Coconut-Derived)</div>
-     
-        <a href="https://amzn.to/4s7KPWQ" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Nature’s Way MCT Oil (Coconut-Derived)" data-url="https://amzn.to/4s7KPWQ">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Nature’s Way MCT Oil (Coconut-Derived)" data-url="https://amzn.to/4s7KPWQ">SMS link</a>
-      </div>
-    </li>
-
- <li>
-      <div class="item-title">Ginseng Five Treasures Tea (30 Tea Bags)</div>
-     
-        <a href="https://amzn.to/3Y73SCV" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Ginseng Five Treasures Tea (30 Tea Bags)" data-url="https://amzn.to/3Y73SCV">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Ginseng Five Treasures Tea (30 Tea Bags)" data-url="https://amzn.to/3Y73SCV">SMS link</a>
-      </div>
-    </li>
-
-<li>
-      <div class="item-title">Organic Senna Leaves Herbal Loose Tea</div>
-    
-        <a href="https://amzn.to/3YgYddy" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Organic Senna Leaves Herbal Loose Tea" data-url="https://amzn.to/3YgYddy">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Organic Senna Leaves Herbal Loose Tea" data-url="https://amzn.to/3YgYddy">SMS link</a>
-      </div>
-    </li>
- <li>
-      <div class="item-title">Dandelion Root & Leaf Tea Bags</div>
-   
-        <a href="https://amzn.to/4papb1w" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Dandelion Root & Leaf Tea Bags" data-url="https://amzn.to/4papb1w">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Dandelion Root & Leaf Tea Bags" data-url="https://amzn.to/4papb1w">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Sea Salt - Hand-Harvested on Vancouver Island</div>
-    
-        <a href="https://amzn.to/3L9MKti" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Sea Salt - Hand-Harvested on Vancouver Island" data-url="https://amzn.to/3L9MKti">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Sea Salt - Hand-Harvested on Vancouver Island" data-url="https://amzn.to/3L9MKti">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Gauze Pads 4x4&quot; - Soft Non-Woven 4-Ply</div>
-     
-        <a href="https://amzn.to/4p3Oxy0" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Gauze Pads 4x4&quot; - Soft Non-Woven 4-Ply" data-url="https://amzn.to/4p3Oxy0">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Gauze Pads 4x4&quot; - Soft Non-Woven 4-Ply" data-url="https://amzn.to/4p3Oxy0">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Castor Oil - 100% Pure &amp; Natural Cold Pressed</div>
-    
-        <a href="https://amzn.to/3L6Aiua" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Castor Oil - 100% Pure &amp; Natural Cold Pressed" data-url="https://amzn.to/3L6Aiua">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Castor Oil - 100% Pure &amp; Natural Cold Pressed" data-url="https://amzn.to/3L6Aiua">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Genacol Fast Action (Plant-Based Softgels)</div>
-     
-      <div class="links">
-        <a href="https://amzn.to/48MaGMm" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Genacol Fast Action (Plant-Based Softgels)" data-url="https://amzn.to/48MaGMm">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Genacol Fast Action (Plant-Based Softgels)" data-url="https://amzn.to/48MaGMm">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Turmeric Curcumin 1500 mg + Black Pepper</div>
-     
-        <a href="https://amzn.to/48N3BLt" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Turmeric Curcumin 1500 mg + Black Pepper" data-url="https://amzn.to/48N3BLt">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Turmeric Curcumin 1500 mg + Black Pepper" data-url="https://amzn.to/48N3BLt">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Ginkgo Biloba</div>
-      
-      <div class="links">
-        <a href="https://amzn.to/3YEkJwY" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Ginkgo Biloba" data-url="https://amzn.to/3YEkJwY">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Ginkgo Biloba" data-url="https://amzn.to/3YEkJwY">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Selenium Glycinate 200 mcg</div>
-     
-      <div class="links">
-        <a href="https://amzn.to/44yZujQ" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Selenium Glycinate 200 mcg" data-url="https://amzn.to/44yZujQ">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Selenium Glycinate 200 mcg" data-url="https://amzn.to/44yZujQ">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Naka Platinum NEM (Eggshell Membrane) 500 mg</div>
-     
-        <a href="https://amzn.to/3Y4Y1xT" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Naka Platinum NEM (Eggshell Membrane) 500 mg" data-url="https://amzn.to/3Y4Y1xT">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Naka Platinum NEM (Eggshell Membrane) 500 mg" data-url="https://amzn.to/3Y4Y1xT">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Purica Recovery (Adaptogen Formula)</div>
-    
-        <a href="https://amzn.to/4sbKqmo" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Purica Recovery (Adaptogen Formula)" data-url="https://amzn.to/4sbKqmo">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Purica Recovery (Adaptogen Formula)" data-url="https://amzn.to/4sbKqmo">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Omega-3 Fish Oil 1,000 mg</div>
-    
-        <a href="https://amzn.to/48Qfvo4" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Omega-3 Fish Oil 1,000 mg" data-url="https://amzn.to/48Qfvo4">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Omega-3 Fish Oil 1,000 mg" data-url="https://amzn.to/48Qfvo4">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Glucosamine (Powder)</div>
-     
-      <div class="links">
-        <a href="https://amzn.to/4akBqVs" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Glucosamine (Powder)" data-url="https://amzn.to/4akBqVs">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Glucosamine (Powder)" data-url="https://amzn.to/4akBqVs">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">Magnesium L-Threonate</div>
-     
-        <a href="https://amzn.to/4qDL9LB" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Magnesium L-Threonate" data-url="https://amzn.to/4qDL9LB">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Magnesium L-Threonate" data-url="https://amzn.to/4qDL9LB">SMS link</a>
-      </div>
-    </li>
-
-<li>
-      <div class="item-title">L-Tryptophan </div>
-     
-        <a href="https://amzn.to/493auXP" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="L-Tryptophan" data-url="https://amzn.to/493auXP">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="L-Tryptophan" data-url="https://amzn.to/493auXP">SMS link</a>
-      </div>
-    </li>
-
-<li>
-      <div class="item-title">L-Theanine Supplements </div>
-   
-        <a href="https://amzn.to/4pOOGX6" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="L-Theanine Supplements" data-url="https://amzn.to/4pOOGX6">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="L-Theanine Supplements" data-url="https://amzn.to/4pOOGX6">SMS link</a>
-      </div>
-    </li>
-
-
-    <li>
-      <div class="item-title">TheraBreath Healthy Gums Oral Rinse (Clean Mint)</div>
-      
-        <a href="https://amzn.to/3KSxJvV" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="TheraBreath Healthy Gums Oral Rinse (Clean Mint)" data-url="https://amzn.to/3KSxJvV">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="TheraBreath Healthy Gums Oral Rinse (Clean Mint)" data-url="https://amzn.to/3KSxJvV">SMS link</a>
-      </div>
-    </li>
-
-  </ul>
-
-  <h2>Food & Snacks</h2>
-  <ul>
-
-    <li>
-      <div class="item-title">Brunswick Smoked Sardine Fillets (92 g, Pack of 18)</div>
-     
-        <a href="https://amzn.to/4p9MsAH" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Brunswick Smoked Sardine Fillets (92 g, Pack of 18)" data-url="https://amzn.to/4p9MsAH">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Brunswick Smoked Sardine Fillets (92 g, Pack of 18)" data-url="https://amzn.to/4p9MsAH">SMS link</a>
-      </div>
-    </li>
-
-
-    <li>
-      <div class="item-title">Yupik Pitted Dates (1 kg)</div>
-     
-        <a href="https://amzn.to/4jg41Oc" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Yupik Pitted Dates (1 kg)" data-url="https://amzn.to/4jg41Oc">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Yupik Pitted Dates (1 kg)" data-url="https://amzn.to/4jg41Oc">SMS link</a>
-      </div>
-    </li>
-
-    <li>
-      <div class="item-title">BAUERNBROT Organic Sunflower Seed Bread (500 g)</div>
-    
-        <a href="https://amzn.to/4qeXy8f" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="BAUERNBROT Organic Sunflower Seed Bread (500 g)" data-url="https://amzn.to/4qeXy8f">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="BAUERNBROT Organic Sunflower Seed Bread (500 g)" data-url="https://amzn.to/4qeXy8f">SMS link</a>
-      </div>
-    </li>
-
-   
-
-  </ul>
-
-  <h2>Home: Clean Living</h2>
-  <ul>
-
-    <li>
-      <div class="item-title">Shark AI Ultra Robot Vacuum (RV2502AECA)</div>
-    
-        <a href="https://amzn.to/4jaGVZd" target="_blank" rel="noopener">View on Amazon.ca</a>
-        <span class="sep">|</span>
-        <a href="#" class="copy-sms" data-title="Shark AI Ultra Robot Vacuum (RV2502AECA)" data-url="https://amzn.to/4jaGVZd">Copy for SMS</a>
-        <span class="sep">|</span>
-        <a href="#" class="sms-link" data-title="Shark AI Ultra Robot Vacuum (RV2502AECA)" data-url="https://amzn.to/4jaGVZd">SMS link</a>
-      </div>
-    </li>
-
-  </ul>
-
-  <footer>
-    <p class="small">
-      Product availability and pricing may change over time. If a product becomes unavailable,
-      it may be replaced by a comparable option.
-    </p>
-  </footer>
-
-</main>
+      // Init
+      setIndex(0);
+      start();
+    })();
+  </script>
 </body>
 </html>
