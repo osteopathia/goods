@@ -76,12 +76,13 @@
     }
 
     .slide img {
-      width: 100%;
-      height: auto;
-      display: block;
-      /* Important: keep page-like look */
-      object-fit: contain;
-      background: #0f141b;
+  width: 100%;
+  max-width: 820px;   /* ← ВОТ ГЛАВНОЕ */
+  height: auto;
+  display: block;
+  object-fit: contain;
+  margin: 0 auto;     /* центрируем */
+  background: #0f141b;
     }
 
     /* Dots */
